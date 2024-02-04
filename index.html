@@ -1,0 +1,83 @@
+<!--Amazon Q Prompt: Please develope a leaflet map of PA cities that features circlemakers - please include everything I need to run the program.-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>PA Cities Map</title>
+
+<!--Leaflet stylesheet-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+</head>
+<body>
+
+  <!--The map's div id and dimensions-->
+  <div id="map" style="width: 800px; height: 500px;"></div>
+
+  <!--Leaflet Javascript-->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+
+    //map center and zoom: I changed the zoom to a larger view so I could see both cities on the map in more detai. I also changed the coordinates to center the two cities. 
+    var map = L.map('map').setView([40.25, -76.5], 9);
+
+    //L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+     // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      //subdomains: 'abcd',
+      //maxZoom: 20
+ //}).addTo(map);
+
+
+ //Tile layer, Got basemap from OpenStreet Map website and found one that worked. I choose one that shows the place names so it was more evident which circle pertained to which city. 
+ var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+ maxZoom: 19,
+ attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+    //City Data
+
+    //I looked up the populations of both cities and inputted it manually, because my original Amazon Q code did not give me the populations. Created a variable for Lancaster and Harrisburg. 
+    var Lan = {
+      name: 'Lancaster',
+      lat: 40.0379,
+      lng: -76.3055,  
+      radius: 5000,
+      population: 57503
+};
+
+    var Harris = {
+      name: 'Harrisburg',
+      lat: 40.273,
+      lng: -76.8756,
+      radius: 3000,  
+      population: 50135
+};
+
+
+
+  //Refers to Circle code and I added color, fill color, and radius from Options and Path 
+      L.circle([Lan.lat, Lan.lng], {
+        radius: (Lan.population)/5,
+        color: 'red',
+        fillColor: 'blue',
+        weight: 4
+        
+        //I had to add another "bold" code notion and when you end that line of text you have to put a /. Also have to begin and end the thing you want changed with the font change.
+        }).bindTooltip ("<b>" + 'Name: ' + "</b>" + "<i>" + Lan.name + "</i>" + "<b>" + "<br>" + 'Population: ' + "</b>" + "<i>"  + Lan.population + "</i>")
+      .addTo(map);
+    
+      L.circle([Harris.lat, Harris.lng], {
+        radius:   (Harris.population)/5,
+        color: 'gold',
+        fillColor: 'blue',
+        weight: 4
+        
+        
+        }).bindTooltip ("<b>" + 'Name: ' + "</b>" + "<i>" + Harris.name + "</i>" + "<b>" + "<br>" + 'Population: ' + "</b>" + "<i>"  + Harris.population + "</i>")
+      .addTo(map);
+
+  
+
+</script>
+</body></html>
